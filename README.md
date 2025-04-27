@@ -101,6 +101,23 @@ mutation {
 }
 ```
 
+---
+
+## ❌ Exemplo de Mutation: Pegar usuarios
+```graphql
+query {
+  users{
+    edges{
+      node{
+        username
+        pk
+        isActive
+      }
+    }
+  }
+}
+```
+
 ⚠️ Atenção: você só pode deletar categorias que **não estejam sendo usadas** por quizzes. Caso contrário, um erro de **constraint de chave estrangeira** será retornado.
 
 ---

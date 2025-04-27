@@ -2,6 +2,7 @@ import graphene
 from graphene_django import DjangoObjectType, DjangoListField
 from .models import Quizzes, Category, Question, Answer
 from django.db.models import ProtectedError
+from graphql_auth.schema import UserQuery, MeQuery
 
 
 class CategoryType(DjangoObjectType):
@@ -28,7 +29,7 @@ class AnswerType(DjangoObjectType):
         fields = ("id", "question", "answer_text", "is_right")
 
 
-class Query(graphene.ObjectType):
+class Query(UserQuery, MeQuery,  graphene.ObjectType):
     all_questions = graphene.Field(QuestionType, id=graphene.Int())
     all_answers = graphene.List(AnswerType, id=graphene.Int())
     # all_questions = graphene.List(QuestionType)
