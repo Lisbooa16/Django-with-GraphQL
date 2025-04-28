@@ -1,5 +1,7 @@
 import graphene
 from graphene_django import DjangoObjectType, DjangoListField
+
+from users.models import ExtendUser
 from .models import Quizzes, Category, Question, Answer
 from django.db.models import ProtectedError
 from graphql_auth.schema import UserQuery, MeQuery
@@ -10,6 +12,10 @@ class CategoryType(DjangoObjectType):
         model = Category
         fields = ("id", "name")
 
+class UserType(DjangoObjectType):
+    class Meta:
+        model = ExtendUser
+        fields = '__all__'
 
 class QuizzesType(DjangoObjectType):
     class Meta:
@@ -105,10 +111,26 @@ class CategoryMutationCreate(graphene.Mutation):
         except:
             raise Exception("Não é possível excluir: a categoria está sendo usada.")
 
+
+class UserGet(graphene.Mutation):
+    class Arguments:
+        id = graphene.ID(required=True)
+
+    user = graphene.Field(UserType)
+
+    @classmethod
+    def mutate(cls, root, info, id):
+        user = ExtendUser.objects.get(id=id)
+        return UserGet(user=user)
+
 class Mutation(graphene.ObjectType):
     update_category = CategoryMutation.Field()
     delete_fields = CategoryMutationDelete.Field()
     create_category = CategoryMutationCreate.Field()
+
+    # usuario
+
+    pegar_usuario = UserGet.Field()
 
 
 

@@ -103,7 +103,7 @@ mutation {
 
 ---
 
-## ❌ Exemplo de Mutation: Pegar usuarios
+## ❌ Exemplo de Mutation: Pegar todos os usuarios
 ```graphql
 query {
   users{
@@ -114,6 +114,18 @@ query {
         isActive
       }
     }
+  }
+}
+```
+
+---
+
+## ❌ Exemplo de Mutation: Pegar o meu usuario
+```graphql
+query {
+  me {
+    username
+    email
   }
 }
 ```
